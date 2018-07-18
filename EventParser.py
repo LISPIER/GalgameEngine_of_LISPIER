@@ -5,25 +5,25 @@
 #以下若干行引入各种类的定义
 from Define_Character import Character
 from Define_Scene import Scene
-from Define_EventParser_Env import EventParser_Env
-# 不确定这里以后要不要用，引入了解析环境的定义，但事实上解析环境是在读取存档时产生的，解析时只是修改
+from Define_Runtime_Env import Runtime_Env
+# 不确定这里以后要不要用，引入了运行时环境的定义，但事实上运行时环境是在读取存档时产生的，解析时只是修改
 
 
 #————[下面是事件解析器本体，代码量很少，哈哈骗你的]————
 
 
-def EventParser(path,Current_EventParser_Env):  # 记住，调用解析器的时候，还要传入读取存档后生成的解析环境
+def EventParser(Path,Current_Runtime_Env):  # 记住，调用解析器的时候，还要传入读取存档后生成的运行时环境
     EventFile_Line_List=EventParser_Read(path)
-    EventParser_Parse(EventFile_Line_List,Current_EventParser_Env)
+    EventParser_Parse(EventFile_Line_List,Current_Runtime_Env)
     # 一次处理一整个事件文件，意味着行和行之间可以产生联系，为分支的实现提供便利
-    # 记住，要把解析环境作为参数传入，切记！
+    # 记住，要把运行时环境作为参数传入，切记！
 
 
 #————[下面是事件解析器的各种部件]————
 
 
 #读入
-def EventParser_Read(path):
+def EventParser_Read(Path):
     EventFile=open(path,"r")  # 只读模式打开
     EventFile_Line_List=[]  # 一个空列表，一个由事件文件中的行组成的列表
     while True:
@@ -43,8 +43,8 @@ def EventParser_Read(path):
 
 
 #解析
-def EventParser_Parse(EventFile_Line_List,Current_EventParser_Env):
-    Current_EventParser_Env=Current_EventParser_Env # 从参数中初始化一个解析环境，之后在这里修改
+def EventParser_Parse(EventFile_Line_List,Current_Runtime_Env):
+    Current_Runtime_Env=Current_Runtime_Env # 从参数中初始化一个运行时环境，之后在这里修改
 
     EventFile_Line_List_Index=0  # 遍历索引初始化
     while EventFile_Line_List_Index<len(EventFile_Line_List):
@@ -57,18 +57,18 @@ def EventParser_Parse(EventFile_Line_List,Current_EventParser_Env):
         if(CurrentLine_Keyword=="Define"):
             if(CurrentLine[1]=="Character"):
                 New_Character=EventParser_Define_Character(CurrentLine)
-                Current_EventParser_Env.Character_Dict[New_Character.Id]=New_Character  # 向环境中加入刚刚创建的人物，如果id冲突那就会覆盖
+                Current_Runtime_Env.Character_Dict[New_Character.Id]=New_Character  # 向环境中加入刚刚创建的人物，如果id冲突那就会覆盖
             elif(CurrentLine[1]=="Scene"):
                 New_Scene=EventParser_Define_Scene(CurrentLine)
-                Current_EventParser_Env.Character_Dict[New_Scene.Id]=New_Scene  # 同上
+                Current_Runtime_Env.Character_Dict[New_Scene.Id]=New_Scene  # 同上
 
         #角色好感度上升
         elif(CurrentLine_Keyword=="FavorValue_Up"):
-            EventParser_FavorValue_Up(CurrentLine,Current_EventParser_Env)
+            EventParser_FavorValue_Up(CurrentLine,Current_Runtime_Env)
 
         #角色好感度下降
         elif(CurrentLine_Keyword=="FavorValue_Down"):
-            EventParser_FavorValue_Down(CurrentLine,Current_EventParser_Env)
+            EventParser_FavorValue_Down(CurrentLine,Current_Runtime_Env)
 
         EventFile_Line_List_Index+=1  # 哈哈永远不要忘记维护索引，顺便说一句for循环一时爽，还是while好用
 
@@ -108,17 +108,17 @@ def EventParser_Define_Scene(CurrentLine):
 
 
 #角色好感度上升
-def EventParser_FavorValue_Up(CurrentLine,Current_EventParser_Env):
+def EventParser_FavorValue_Up(CurrentLine,Current_Runtime_Env):
     Id=CurrentLine[1]
     Value=int(CurrentLine[2])  # 字符串转数字，时刻谨记类型转换
-    Character=Current_EventParser_Env[Id]
+    Character=Current_Runtime_Env[Id]
     Character.FavorValue_Up(Value)
 
 
 #角色好感度下降
-def EventParser_FavorValue_Down(CurrentLine,Current_EventParser_Env):
+def EventParser_FavorValue_Down(CurrentLine,Current_Runtime_Env):
     Id=CurrentLine[1]
     Value=int(CurrentLine[2])  # 同上
-    Character=Current_EventParser_Env[Id]
+    Character=Current_Runtime_Env[Id]
     Character.FavorValue_Down(Value)
 

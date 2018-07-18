@@ -1,0 +1,10 @@
+<Character>
+<Id> <Name> <Sex> <FavorValue> <Interactive_FavorValue> <Conquest_FavorValue> <Describe>
+</Character>
+角色保存形式
+
+<Scene>
+<Id> <Name> <Describe>
+</Scene>
+场景保存形式
+
