@@ -1,0 +1,12 @@
+Define Character <Id> <Name> <Sex> <FavorValue> <Interactive_FavorValue> <Conquest_FavorValue> <Describe>
+定义 角色 id 姓名 性别 初始好感度 可交互好感度 可攻略好感度 角色描述
+
+Define Scene <Id> <Name> <Describe>
+定义 场景 id 名称 描述
+
+FavorValue_Up <Id> <Value>
+好感度升高 角色id 数值
+
+FavorValue_Down <Id> <Value>
+好感度降低 角色id 数值
+
