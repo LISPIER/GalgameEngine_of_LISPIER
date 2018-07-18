@@ -110,7 +110,7 @@ def EventParser_Define_Scene(CurrentLine):
 #角色好感度上升
 def EventParser_FavorValue_Up(CurrentLine,Current_EventParser_Env):
     Id=CurrentLine[1]
-    Value=int(CurrentLine[2])
+    Value=int(CurrentLine[2])  # 字符串转数字，时刻谨记类型转换
     Character=Current_EventParser_Env[Id]
     Character.FavorValue_Up(Value)
 
@@ -118,6 +118,7 @@ def EventParser_FavorValue_Up(CurrentLine,Current_EventParser_Env):
 #角色好感度下降
 def EventParser_FavorValue_Down(CurrentLine,Current_EventParser_Env):
     Id=CurrentLine[1]
-    Value=int(CurrentLine[2])
+    Value=int(CurrentLine[2])  # 同上
     Character=Current_EventParser_Env[Id]
     Character.FavorValue_Down(Value)
+
