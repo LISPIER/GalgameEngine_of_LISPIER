@@ -13,7 +13,7 @@ from Define_Runtime_Env import Runtime_Env
 
 
 def EventParser(Path,Current_Runtime_Env):  # 记住，调用解析器的时候，还要传入读取存档后生成的运行时环境
-    EventFile_Line_List=EventParser_Read(path)
+    EventFile_Line_List=EventParser_Read(Path)
     EventParser_Parse(EventFile_Line_List,Current_Runtime_Env)
     # 一次处理一整个事件文件，意味着行和行之间可以产生联系，为分支的实现提供便利
     # 记住，要把运行时环境作为参数传入，切记！
@@ -24,7 +24,7 @@ def EventParser(Path,Current_Runtime_Env):  # 记住，调用解析器的时候�
 
 #读入
 def EventParser_Read(Path):
-    EventFile=open(path,"r")  # 只读模式打开
+    EventFile=open(Path,"r")  # 只读模式打开
     EventFile_Line_List=[]  # 一个空列表，一个由事件文件中的行组成的列表
     while True:
         CurrentLine=EventFile.readline()
